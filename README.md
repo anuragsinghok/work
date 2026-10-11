@@ -43,19 +43,46 @@ Open a countdown → **Wallpaper** → pick a size → **Save image**.
 
 A picture can't change by itself. To keep the numbers correct, save a new one now and then, or use one of the auto-updating options below.
 
-### 2. iPhone: wallpaper that updates every day (Shortcuts)
+### 2. iPhone: wallpaper that updates itself (Shortcuts automation)
 
-Apple doesn't let apps make a live, ticking wallpaper. What does work is an iPhone Shortcut that rebuilds the wallpaper every morning:
+Apple doesn't let apps make a ticking wallpaper. Instead, a Shortcut rebuilds the wallpaper with the new weeks, days, hours and minutes, and an automation runs it for you.
 
-1. Open the **Shortcuts** app → **Automation** → **+** → **Time of Day** (e.g. 6:00 AM, Daily) → **Run Immediately**.
-2. Add these actions:
-   1. **Date**: set it to your target date (e.g. `25 Dec 2026 10:30`).
-   2. **Get Time Between Dates**: from *Current Date* to *Date*, in **Days**.
-   3. **Text**: `Trip to Goa — [Time Between Dates] days to go`.
-   4. **Get Images** (or **Select Photos**): pick a background, such as a wallpaper you saved from this app.
-   5. **Overlay Text** on that image, using the Text from step 3.
-   6. **Set Wallpaper**: Lock Screen, and turn off *Show Preview*.
-3. Every morning your lock screen shows the new number of days left.
+**Step A: a background picture.** In Photos, make an album called **Countdown** and put one picture in it. Any photo works.
+
+**Step B: the shortcut.** In the **Shortcuts** app, tap **+** to make a new shortcut called *Countdown Wallpaper*, then add these actions in order:
+
+| # | Action | Set it to |
+|---|---|---|
+| 1 | **Date** | your target, e.g. `25 Dec 2026 10:30 AM` |
+| 2 | **Get Time Between Dates** | between *Current Date* and *Date*, in **Minutes**. If the result is negative, swap the two dates |
+| 3 | **Set Variable** | `Total` = Time Between Dates |
+| 4 | **Calculate** | `Total` ÷ `10080` |
+| 5 | **Round Number** | Round **Down**, to Ones place |
+| 6 | **Set Variable** | `Weeks` |
+| 7 | **Calculate** | `Total` **%** `10080` (tap the operator and pick **Modulus**) |
+| 8 | **Calculate** | result ÷ `1440` |
+| 9 | **Round Number** | Round Down |
+| 10 | **Set Variable** | `Days` |
+| 11 | **Calculate** | `Total` % `1440` |
+| 12 | **Calculate** | result ÷ `60` |
+| 13 | **Round Number** | Round Down |
+| 14 | **Set Variable** | `Hours` |
+| 15 | **Calculate** | `Total` % `60` |
+| 16 | **Set Variable** | `Minutes` |
+| 17 | **Text** | `Trip to Goa` (new line) `Weeks weeks · Days days` (new line) `Hours hours · Minutes min left`, inserting the variables from the variable bar |
+| 18 | **Find Photos** | Album is *Countdown*, Limit **1** |
+| 19 | **Overlay Text** | Text on Photos. Tap the arrow to set position (Center), size and color |
+| 20 | **Set Wallpaper** | to the Overlay result, Lock Screen (and/or Home Screen), **Show Preview off** |
+
+Tap ▶ to test it. Your lock screen should change.
+
+**Step C: the automation.** Go to **Automation** → **+** → **Time of Day** → choose a time, **Daily** → **Run Immediately** → pick *Countdown Wallpaper*.
+
+- Shortcuts can't repeat "every hour", so add one automation for each time you want it to update (e.g. 6 AM, 9 AM, 12 PM, 3 PM, 6 PM, 9 PM).
+- To keep the minutes closer to right, also add an **App** automation ("Is Opened": Instagram, WhatsApp, YouTube…). The wallpaper then refreshes each time you open those apps.
+- **Charger** ("Is Connected") is another good trigger.
+
+The minutes are exact at the moment it runs. Between runs, the wallpaper is still a picture.
 
 ### 3. Android: a real live wallpaper
 
