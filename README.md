@@ -61,9 +61,7 @@ Apple doesn't let apps make a live, ticking wallpaper. What does work is an iPho
 
 Android allows live wallpapers, but a website can't install one by itself. You have two options:
 
-- **No coding:** install **KLWP (Kustom Live Wallpaper)** and add a text element with the formula
-  `$tf(2026y12M25d10h30m, "w' weeks 'd' days 'h' hours 'm' min'")$`.
-  It updates live, every second if you want.
+- **No coding:** install **KLWP (Kustom Live Wallpaper)** and add a text element that uses its `tf()` (time-span) function with your target date. KLWP's built-in formula help has countdown examples. It updates live on your home screen.
 - **Our own app:** wrap this site in a small native Android app with a `WallpaperService` that draws the same countdown (see roadmap below).
 
 ### 4. Always-on display (any device)
