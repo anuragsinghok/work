@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Countdown</title>
+  <meta name="description" content="Countdowns to the moments that matter, with reminders and wallpapers.">
+  <meta name="theme-color" content="#0b0b14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Countdown">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- List of countdowns -->
+  <main id="home" class="screen">
+    <header class="top">
+      <h1>Countdown</h1>
+      <button id="addBtn" class="btn primary" aria-label="Add countdown">+ New</button>
+    </header>
+    <p id="installHint" class="hint" hidden></p>
+    <ul id="list" class="list"></ul>
+    <div id="empty" class="empty" hidden>
+      <p>No countdowns yet.</p>
+      <p class="muted">Add a date you're waiting for — a trip, a birthday, an exam, a deadline.</p>
+    </div>
+  </main>
+
+  <!-- Full-screen live view (also the "wallpaper mode") -->
+  <section id="live" class="live" hidden>
+    <div class="live-inner">
+      <div id="liveTitle" class="live-title"></div>
+      <div id="liveDate" class="live-date"></div>
+      <div id="liveUnits" class="units"></div>
+      <div id="liveTotal" class="live-total"></div>
+    </div>
+    <div class="live-bar">
+      <button class="btn ghost" data-act="close">Back</button>
+      <button class="btn ghost" data-act="edit">Edit</button>
+      <button class="btn ghost" data-act="wallpaper">Wallpaper</button>
+      <button class="btn ghost" data-act="calendar">Alarm (.ics)</button>
+      <button class="btn ghost" data-act="share">Share</button>
+    </div>
+  </section>
+
+  <!-- Add / edit form -->
+  <dialog id="editor">
+    <form id="form" method="dialog">
+      <h2 id="formTitle">New countdown</h2>
+      <label>Name
+        <input name="title" required maxlength="60" placeholder="Trip to Goa">
+      </label>
+      <div class="row">
+        <label>Date
+          <input name="date" type="date" required>
+        </label>
+        <label>Time
+          <input name="time" type="time" value="09:00" required>
+        </label>
+      </div>
+      <label>Reminder
+        <select name="remind">
+          <option value="0">At the time</option>
+          <option value="5">5 minutes before</option>
+          <option value="60">1 hour before</option>
+          <option value="1440">1 day before</option>
+          <option value="10080">1 week before</option>
+          <option value="-1">No reminder</option>
+        </select>
+      </label>
+      <label>Style</label>
+      <div id="themes" class="themes"></div>
+      <div class="form-actions">
+        <button type="button" id="deleteBtn" class="btn danger" hidden>Delete</button>
+        <span class="spacer"></span>
+        <button type="button" value="cancel" class="btn" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Wallpaper export -->
+  <dialog id="wallDialog">
+    <h2>Make it your wallpaper</h2>
+    <canvas id="wallCanvas"></canvas>
+    <div class="row">
+      <label>Size
+        <select id="wallSize"></select>
+      </label>
+      <label>Layout
+        <select id="wallLayout">
+          <option value="lock">Lock screen (below clock)</option>
+          <option value="center">Centered</option>
+        </select>
+      </label>
+    </div>
+    <p class="muted small">This saves a picture of the countdown <em>right now</em>. To keep it updating by itself, see “Live wallpaper” in the README.</p>
+    <div class="form-actions">
+      <button type="button" class="btn" id="wallClose">Close</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn primary" id="wallSave">Save image</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
